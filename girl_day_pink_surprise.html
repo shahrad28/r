@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>دنیای کوچولوی تو 🎀</title>
+    <style>
+      :root {
+        --pink: #ff6fb5;
+        --rose: #e94691;
+        --pale: #fff0f7;
+        --ink: #632746;
+        --cream: #fffafd;
+        --purple: #a88aff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family: Tahoma, "Segoe UI", sans-serif;
+        color: var(--ink);
+        background: #fff5fb;
+        overflow-x: hidden;
+      }
+      .app {
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at 15% 10%, #ffe1f0, transparent 30%),
+          radial-gradient(circle at 90% 40%, #e9e0ff, transparent 28%),
+          linear-gradient(145deg, #fff7fc, #ffeaf5 55%, #f4edff);
+        position: relative;
+      }
+      .top {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 14px;
+        border: 1px solid #ffffffb8;
+        border-radius: 22px;
+        background: #fff9;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 8px 30px #b83c7710;
+      }
+      .brand {
+        font-weight: bold;
+        text-align: center;
+      }
+      .tiny {
+        font-size: 12px;
+        color: #a05a7d;
+      }
+      .music {
+        border: 0;
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+        background: #ffe0ef;
+        color: #b42b72;
+        font-size: 19px;
+        cursor: pointer;
+      }
+      .screen {
+        min-height: 100svh;
+        padding: 100px 20px 45px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+      }
+      .screen.active {
+        display: flex;
+        animation: appear 0.7s ease both;
+      }
+      .inner {
+        max-width: 760px;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+      }
+      .pill {
+        display: inline-block;
+        padding: 8px 14px;
+        border-radius: 99px;
+        background: #fff9;
+        border: 1px solid #fff;
+        font-size: 12px;
+        letter-spacing: 0.2px;
+      }
+      .hero h1 {
+        font-size: clamp(2.1rem, 8vw, 4.8rem);
+        line-height: 1.45;
+        margin: 22px 0 10px;
+        color: #b83279;
+        text-shadow: 0 5px 25px #f5a7cf55;
+      }
+      .hero p {
+        font-size: clamp(1rem, 3vw, 1.2rem);
+        line-height: 2;
+        color: #87506d;
+      }
+      .btn {
+        border: 0;
+        border-radius: 99px;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #ff82bf, #e94691);
+        color: white;
+        font: inherit;
+        font-weight: bold;
+        box-shadow: 0 10px 24px #e9469140;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        margin: 8px;
+      }
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 28px #e9469150;
+      }
+      .btn.secondary {
+        background: #fff;
+        color: #b83279;
+        border: 1px solid #ffd0e6;
+        box-shadow: none;
+      }
+      .orb {
+        font-size: clamp(4rem, 16vw, 8rem);
+        filter: drop-shadow(0 10px 20px #ed79b755);
+        animation: float 3s ease-in-out infinite;
+      }
+      .sparkles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .petal {
+        position: absolute;
+        top: -30px;
+        animation: fall linear infinite;
+        opacity: 0.75;
+      }
+      .letter {
+        max-width: 560px;
+        margin: 22px auto;
+        padding: clamp(25px, 6vw, 48px);
+        background: linear-gradient(145deg, #fffdf8, #fff0f6);
+        border: 1px solid #ffc6e1;
+        border-radius: 24px;
+        box-shadow: 0 25px 70px #b83c771c;
+        transform: rotate(-1deg);
+        line-height: 2.15;
+        text-align: right;
+        position: relative;
+      }
+      .letter:before {
+        content: "♡";
+        position: absolute;
+        top: 10px;
+        left: 18px;
+        color: #ff8fbe;
+        font-size: 25px;
+      }
+      .letter h2 {
+        text-align: center;
+        color: #c23b7e;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin: 25px 0;
+      }
+      .memory {
+        border: 1px solid #ffd0e5;
+        background: #fff9;
+        border-radius: 20px;
+        padding: 12px;
+        cursor: pointer;
+        text-align: center;
+        transition: 0.2s;
+        box-shadow: 0 10px 25px #c44c8710;
+      }
+      .memory:hover {
+        transform: translateY(-5px) rotate(-1deg);
+      }
+      .photo {
+        aspect-ratio: 4/5;
+        border-radius: 13px;
+        background: linear-gradient(145deg, #ffc4df, #e9dfff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 45px;
+        overflow: hidden;
+      }
+      .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .memory strong {
+        display: block;
+        margin: 10px 0 5px;
+      }
+      .memory small {
+        color: #a06a87;
+        line-height: 1.8;
+      }
+      .hint {
+        font-size: 12px;
+        color: #a06a87;
+      }
+      .big-heart {
+        font-size: clamp(6rem, 25vw, 11rem);
+        display: inline-block;
+        animation: heartbeat 1.2s infinite;
+        cursor: pointer;
+        filter: drop-shadow(0 8px 30px #ed5ca455);
+      }
+      .name-input {
+        width: min(100%, 320px);
+        padding: 13px 16px;
+        border: 1px solid #f5b5d3;
+        border-radius: 15px;
+        background: #fff9;
+        font: inherit;
+        color: var(--ink);
+        text-align: center;
+        outline: none;
+      }
+      .name-input:focus {
+        border-color: var(--rose);
+        box-shadow: 0 0 0 4px #ffb4d533;
+      }
+      .final-title {
+        font-size: clamp(2.2rem, 8vw, 4.5rem);
+        color: #bc347a;
+        line-height: 1.5;
+      }
+      .footer {
+        font-size: 12px;
+        color: #b17a98;
+        margin-top: 25px;
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 20;
+        background: #632746;
+        color: white;
+        border-radius: 99px;
+        padding: 12px 18px;
+        font-size: 13px;
+        display: none;
+        max-width: 90%;
+        text-align: center;
+      }
+      .toast.show {
+        display: block;
+        animation: appear 0.3s;
+      }
+      .progress {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: #f5cde0;
+        z-index: 15;
+      }
+      .progress span {
+        display: block;
+        height: 100%;
+        width: 25%;
+        background: linear-gradient(90deg, #ff91c8, #a88aff);
+        transition: width 0.4s;
+      }
+      .hidden {
+        display: none !important;
+      }
+      @keyframes float {
+        50% {
+          transform: translateY(-13px) rotate(3deg);
+        }
+      }
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        15% {
+          transform: scale(1.08);
+        }
+        30% {
+          transform: scale(1);
+        }
+        45% {
+          transform: scale(1.05);
+        }
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(540deg);
+        }
+      }
+      @keyframes appear {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (max-width: 600px) {
+        .cards {
+          grid-template-columns: 1fr;
+          max-width: 300px;
+          margin: 20px auto;
+        }
+        .memory {
+          display: grid;
+          grid-template-columns: 90px 1fr;
+          gap: 12px;
+          text-align: right;
+          align-items: center;
+        }
+        .photo {
+          grid-row: span 2;
+          aspect-ratio: 1;
+        }
+        .top {
+          top: 8px;
+          left: 8px;
+          right: 8px;
+        }
+        .screen {
+          padding-top: 85px;
+        }
+        .letter {
+          padding: 27px 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app" id="app">
+      <header class="top">
+        <div>
+          <div class="brand">روز دختر مبارککککککککک</div>
+          <!-- <div class="tiny"></div> -->
+        </div>
+        <!-- <button class="music" id="musicBtn" aria-label="موسیقی">♫</button> -->
+      </header>
+      <div class="sparkles" id="sparkles"></div>
+      <section class="screen active" data-screen="0">
+        <div class="inner hero">
+          <div class="orb">🎀</div>
+          <span class="pill"
+            >این یه تبریکه ساده است. قول میدم تبریکه بعدی بهتر باشه</span
+          >
+          <h1>
+            یه دختر کوچولوووو هست…<br />که خیلی عاشقشم خیلی دنیامو قشنگ‌تر کرده
+            و به زندگیم رنگ و بوی جدیدی داده روزت مبارک قشنگ‌ترین دختر دنیا
+            دختری که وجودت بهترین وجود عالمه. دختری که بودنت بهترین بودنه .
+            کنارت بهترین حس‌ها رو تجربه می‌کنم و دلم میخواد ابدی باشه. درسته
+            بینمون مشکل بزرگی پیش اومده ولی با کمک هم بهترینارو میسازیم. روزت
+            مبارک قشنگ ترین و بهترین و ناز ترین دختر دنیا
+          </h1>
+          <p>ارزوی بهترینارو برات دارم نازززز نازی خانومممم</p>
+          <!-- <button class="btn" onclick="go(1)">ببینم چه خبره؟ ✨</button> -->
+          <div class="footer">تقدیم با عشق به دختر نازم نگار خانومممم. از طرف: شهراد</div>
+        </div>
+      </section>
+      <section class="screen" data-screen="1">
+        <div class="inner">
+          <div class="orb">💌</div>
+          <span class="pill">مرحله‌ی دوم · یه نامه‌ی مخفی</span>
+          <h1>این نامه فقط برای توئه</h1>
+          <p>
+            آماده‌ای بازش کنی؟ قول می‌دم از طرف یه نفر خیلی دوست‌داشتنیه. 🥹
+          </p>
+          <button class="btn" id="openLetter">باز کردن نامه 💗</button>
+          <article class="letter hidden" id="letter">
+            <h2>
+              برای
+              <input
+                id="herName"
+                class="name-input"
+                placeholder="اسم یا لقب قشنگش"
+                maxlength="35"
+                aria-label="اسم یا لقب دوست دختر"
+              />
+            </h2>
+            <p>سلام قشنگ‌ترین اتفاق دنیای من… 🌷</p>
+            <p>
+              شاید نتونم همه‌ی حس قشنگی رو که بهت دارم توی چند خط جا بدم؛ ولی
+              می‌خوام بدونی بودنت، خنده‌هات و حتی حرف‌های کوچولوت، روزهای معمولی
+              رو برام خاص می‌کنن.
+            </p>
+            <p>
+              امروز بهونه‌ایه که بیشتر از همیشه بهت بگم: تو لایق کلی عشق، آرامش،
+              لبخند و اتفاق‌های قشنگی. امیدوارم همیشه یادت بمونه چقدر ارزشمندی.
+              💗
+            </p>
+            <p style="text-align: center; font-weight: bold">
+              روز دختر مبارک، دختر قشنگ من 🎀
+            </p>
+            <p style="text-align: left">
+              با عشق،<br />یکی که خیلی دوستت داره ♡
+            </p>
+          </article>
+          <button class="btn secondary hidden" id="letterNext" onclick="go(2)">
+            بریم سراغ خاطره‌ها ←
+          </button>
+        </div>
+      </section>
+      <section class="screen" data-screen="2">
+        <div class="inner">
+          <span class="pill">مرحله‌ی سوم · قاب‌های کوچولوی ما</span>
+          <h1>چند تا جای خالی برای خاطره‌های قشنگمون 📸</h1>
+          <p>روی هر قاب بزن؛ می‌تونی عکس واقعی‌تون رو هم جاش بذاری.</p>
+          <div class="cards">
+            <button class="memory" onclick="pickPhoto(0)">
+              <div class="photo" id="photo0">🌷</div>
+              <strong>اولین خاطره</strong
+              ><small id="caption0">اون روزی که لبخند زدی…</small></button
+            ><button class="memory" onclick="pickPhoto(1)">
+              <div class="photo" id="photo1">🧸</div>
+              <strong>قشنگ‌ترین لحظه</strong
+              ><small id="caption1">یه لحظه‌ی ساده، یه حس بزرگ</small></button
+            ><button class="memory" onclick="pickPhoto(2)">
+              <div class="photo" id="photo2">🌅</div>
+              <strong>خاطره‌ی بعدی</strong
+              ><small id="caption2">هنوز کلی خاطره مونده…</small>
+            </button>
+          </div>
+          <input
+            class="hidden"
+            id="photoPicker"
+            type="file"
+            accept="image/*"
+            multiple
+          />
+          <p class="hint">
+            برای گذاشتن عکس، روی قاب بزن و از گالری انتخاب کن. عکس‌ها فقط در
+            همین مرورگر نمایش داده می‌شن.
+          </p>
+          <button class="btn" onclick="go(3)">
+            یه سورپرایز دیگه مونده… 💫
+          </button>
+        </div>
+      </section>
+      <section class="screen" data-screen="3">
+        <div class="inner">
+          <span class="pill">مرحله‌ی آخر · فقط یه آرزو</span>
+          <h1>یه قلب کوچولو برای تو 💞</h1>
+          <p>روی قلب بزن و آرزوت رو باز کن…</p>
+          <div class="big-heart" id="heart">💗</div>
+          <div id="wish" class="letter hidden" style="text-align: center">
+            <h2>آرزوی من برای تو 🌟</h2>
+            <p>
+              آرزو می‌کنم هر روز دلیلی برای خندیدن داشته باشی، آدم‌هایی کنارت
+              باشن که قدر قلب مهربونت رو بدونن و هیچ‌وقت یادت نره که خودت،
+              به‌تنهایی، یه اتفاق قشنگی.
+            </p>
+            <p><strong id="finalName">دختر قشنگ من</strong>، روزت مبارک! 🎀</p>
+          </div>
+          <button class="btn secondary hidden" id="restart" onclick="go(0)">
+            از اول دوباره ببین ♡
+          </button>
+          <div class="footer">
+            این سایت یه هدیه‌ی کوچیکه؛ ولی احساسی که پشتشه، واقعی و از ته قلبه.
+          </div>
+        </div>
+      </section>
+      <div class="progress"><span id="progress"></span></div>
+      <div class="toast" id="toast"></div>
+    </main>
+    <script>
+      let current=0,photoTarget=0,musicOn=false,audioCtx=null,notesTimer=null;const screens=[...document.querySelectorAll('.screen')];function go(n){current=n;screens.forEach((s,i)=>s.classList.toggle('active',i===n));document.getElementById('progress').style.width=((n+1)/screens.length*100)+'%';window.scrollTo({top:0,behavior:'smooth'});if(n===3)syncName()}
+      function syncName(){let n=document.getElementById('herName').value.trim();document.getElementById('finalName').textContent=n||'دختر قشنگ من'}document.getElementById('herName').addEventListener('input',syncName);
+      document.getElementById('openLetter').addEventListener('click',()=>{document.getElementById('letter').classList.remove('hidden');document.getElementById('letterNext').classList.remove('hidden');document.getElementById('openLetter').classList.add('hidden');confetti()});document.getElementById('heart').addEventListener('click',()=>{document.getElementById('wish').classList.remove('hidden');document.getElementById('restart').classList.remove('hidden');syncName();confetti();document.getElementById('heart').textContent='💖'});
+      function pickPhoto(i){photoTarget=i;document.getElementById('photoPicker').click()}document.getElementById('photoPicker').addEventListener('change',e=>{const files=[...e.target.files].slice(0,3);files.forEach((f,j)=>{const i=(photoTarget+j)%3;const url=URL.createObjectURL(f);document.getElementById('photo'+i).innerHTML='<img alt="خاطره‌ی ما" src="'+url+'">';document.getElementById('caption'+i).textContent=f.name.replace(/\.[^.]+$/,'').slice(0,40)||'خاطره‌ی ما'};toast('عکس‌ها اضافه شدن! برای لینک عمومی، عکس‌ها را بعداً همراه سایت منتشر کن.');e.target.value=''});
+      function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3600)}function confetti(){const box=document.getElementById('sparkles');for(let i=0;i<24;i++){const p=document.createElement('span');p.className='petal';p.textContent=['💗','✨','🌸','♡'][Math.floor(Math.random()*4)];p.style.left=Math.random()*100+'%';p.style.animationDuration=(3+Math.random()*4)+'s';p.style.fontSize=(12+Math.random()*18)+'px';box.appendChild(p);setTimeout(()=>p.remove(),7500)}}for(let i=0;i<18;i++){const p=document.createElement('span');p.className='petal';p.textContent=['♡','✦','🌸'][i%3];p.style.left=Math.random()*100+'%';p.style.animationDuration=(8+Math.random()*12)+'s';p.style.animationDelay=(-Math.random()*15)+'s';p.style.fontSize=(12+Math.random()*15)+'px';document.getElementById('sparkles').appendChild(p)}
+      // Optional synthesized melody; no external audio file or network needed.
+      document.getElementById('musicBtn').addEventListener('click',async()=>{try{if(musicOn){musicOn=false;clearInterval(notesTimer);if(audioCtx)await audioCtx.suspend();document.getElementById('musicBtn').textContent='♫';toast('موسیقی متوقف شد');return}audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();await audioCtx.resume();musicOn=true;document.getElementById('musicBtn').textContent='♪';const melody=[523.25,659.25,783.99,659.25,587.33,698.46,880,698.46];let k=0;function note(){if(!musicOn)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=melody[k++%melody.length];g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.055,audioCtx.currentTime+.04);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.45);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.48)}note();notesTimer=setInterval(note,500);toast('یه ملودی کوچولو برات پخش می‌شه 🎵')}catch(e){toast('مرورگر اجازه‌ی پخش صدا نداد؛ دوباره لمس کن')}});
+      go(0);
+    </script>
+  </body>
+</html>
